@@ -1,96 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script defer src="/_vercel/insights/script.js"></script>
+<title>SDTM Domain Classification</title>
+<style>
+  :root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#64748b;
+    --accent:#2563eb;
+    --accent-soft:#eff6ff;
+    --line:#dbe3ef;
+    --shadow:0 14px 35px rgba(15,23,42,.08);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:linear-gradient(135deg,#f8fafc,#eef4ff);
+    color:var(--text);
+    min-height:100vh;
+  }
+
+  .container{
+    width:min(1180px,92%);
+    margin:0 auto;
+    padding:48px 0 70px;
+  }
+
+  header{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:28px 32px;
+    box-shadow:var(--shadow);
+    margin-bottom:26px;
+  }
+
+  h1{
+    margin:0 0 8px;
+    font-size:30px;
+    letter-spacing:-.5px;
+  }
+
+  .subtitle{
+    margin:0;
+    color:var(--muted);
+    line-height:1.6;
+  }
+
+  .tree{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:30px 28px;
+    box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+
+  ul{
+    list-style:none;
+    margin:0;
+    padding-left:28px;
+  }
+
+  .tree > ul{padding-left:0}
+
+  li{
+    position:relative;
+    margin:7px 0;
+  }
+
+  .branch{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 13px;
+    border-radius:11px;
+    cursor:default;
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+
+  .branch:hover{
+    background:var(--accent-soft);
+    transform:translateX(4px);
+    box-shadow:0 7px 18px rgba(37,99,235,.10);
+  }
+
+  .code{
+    font-weight:700;
+    color:var(--accent);
+  }
+
+  .name{
+    font-weight:600;
+  }
+
+  .category{
+    font-size:18px;
+    font-weight:800;
+    color:#111827;
+    margin-top:20px;
+  }
+
+  .category:first-child{margin-top:0}
+
+  .translation{
+    display:inline-block;
+    max-width:0;
+    opacity:0;
+    overflow:hidden;
+    white-space:nowrap;
+    margin-left:0;
+    padding:0;
+    color:#475569;
+    font-size:.93em;
+    transform:translateX(-8px);
+    transition:
+      max-width .42s cubic-bezier(.2,.8,.2,1),
+      opacity .3s ease,
+      transform .42s cubic-bezier(.2,.8,.2,1),
+      margin-left .42s ease,
+      padding .42s ease;
+    vertical-align:middle;
+  }
+
+  .branch:hover .translation{
+    max-width:520px;
+    opacity:1;
+    transform:translateX(0);
+    margin-left:5px;
+    padding-left:9px;
+    border-left:2px solid #bfdbfe;
+  }
+
+  .section-note{
+    color:var(--muted);
+    font-size:13px;
+    margin:8px 0 12px 13px;
+  }
+
+  @media (max-width:700px){
+    .container{padding-top:25px}
+    header,.tree{padding:22px 18px}
+    h1{font-size:24px}
+    ul{padding-left:14px}
+    .translation{
+      white-space:normal;
+    }
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <h1>SDTM — Study Data Tabulation Model</h1>
+  <p class="subtitle">
+    Hover over any item to reveal its Armenian translation.
+  </p>
+</header>
+
+<div class="tree">
+<ul>
+
+  <li>
+    <div class="branch category">
+      <span>1. General Observation Classes</span>
+      <span class="translation">(Ընդհանուր դիտարկումների դասեր)</span>
+    </div>
+
+    <ul>
+      <li>
+        <div class="branch">
+          <span class="name">Interventions</span>
+          <span class="translation">(Միջամտություններ)</span>
+        </div>
+        <ul>
+          <li><div class="branch"><span class="code">EX</span><span>— Exposure</span><span class="translation">(Հետազոտվող բուժման ազդեցություն / ստացված բուժում)</span></div></li>
+          <li><div class="branch"><span class="code">CM</span><span>— Concomitant Medications</span><span class="translation">(Ուղեկցող դեղամիջոցներ)</span></div></li>
+          <li><div class="branch"><span class="code">EC</span><span>— Exposure as Collected</span><span class="translation">(Բուժման ազդեցության՝ սկզբնապես հավաքագրված տվյալներ)</span></div></li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="branch">
+          <span class="name">Events</span>
+          <span class="translation">(Իրադարձություններ)</span>
+        </div>
+        <ul>
+          <li><div class="branch"><span class="code">AE</span><span>— Adverse Events</span><span class="translation">(Անցանկալի երևույթներ)</span></div></li>
+          <li><div class="branch"><span class="code">MH</span><span>— Medical History</span><span class="translation">(Բժշկական պատմություն)</span></div></li>
+          <li><div class="branch"><span class="code">DS</span><span>— Disposition</span><span class="translation">(Հետազոտության մասնակցության կարգավիճակ և ելք)</span></div></li>
+          <li><div class="branch"><span class="code">CE</span><span>— Clinical Events</span><span class="translation">(Կլինիկական իրադարձություններ)</span></div></li>
+          <li><div class="branch"><span class="code">DV</span><span>— Protocol Deviations</span><span class="translation">(Արձանագրությունից շեղումներ)</span></div></li>
+        </ul>
+      </li>
+
+      <li>
+        <div class="branch">
+          <span class="name">Findings</span>
+          <span class="translation">(Գտածոներ / հետազոտությունների արդյունքներ)</span>
+        </div>
+        <ul>
+          <li><div class="branch"><span class="code">LB</span><span>— Laboratory Test Results</span><span class="translation">(Լաբորատոր հետազոտությունների արդյունքներ)</span></div></li>
+          <li><div class="branch"><span class="code">VS</span><span>— Vital Signs</span><span class="translation">(Կենսական ցուցանիշներ)</span></div></li>
+          <li><div class="branch"><span class="code">EG</span><span>— ECG Test Results</span><span class="translation">(ԷՍԳ հետազոտության արդյունքներ)</span></div></li>
+          <li><div class="branch"><span class="code">PE</span><span>— Physical Examination</span><span class="translation">(Ֆիզիկական զննություն)</span></div></li>
+          <li><div class="branch"><span class="code">QS</span><span>— Questionnaires</span><span class="translation">(Հարցաթերթիկներ)</span></div></li>
+          <li><div class="branch"><span class="code">IE</span><span>— Inclusion/Exclusion Criteria</span><span class="translation">(Ներառման/բացառման չափանիշներ)</span></div></li>
+          <li><div class="branch"><span class="code">PC</span><span>— Pharmacokinetic Concentrations</span><span class="translation">(Ֆարմակոկինետիկ կոնցենտրացիաներ)</span></div></li>
+          <li><div class="branch"><span class="code">PP</span><span>— Pharmacokinetic Parameters</span><span class="translation">(Ֆարմակոկինետիկ պարամետրեր)</span></div></li>
+          <li><div class="branch"><span class="code">RS</span><span>— Disease Response</span><span class="translation">(Հիվանդության պատասխանը բուժմանը)</span></div></li>
+          <li><div class="branch"><span class="code">TU</span><span>— Tumor Identification</span><span class="translation">(Ուռուցքի նույնականացում)</span></div></li>
+          <li><div class="branch"><span class="code">TR</span><span>— Tumor Results</span><span class="translation">(Ուռուցքի գնահատման արդյունքներ)</span></div></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="branch category">
+      <span>2. Special-Purpose Domains</span>
+      <span class="translation">(Հատուկ նշանակության դոմեյններ)</span>
+    </div>
+    <ul>
+      <li><div class="branch"><span class="code">DM</span><span>— Demographics</span><span class="translation">(Ժողովրդագրական տվյալներ)</span></div></li>
+      <li><div class="branch"><span class="code">CO</span><span>— Comments</span><span class="translation">(Մեկնաբանություններ)</span></div></li>
+      <li><div class="branch"><span class="code">SE</span><span>— Subject Elements</span><span class="translation">(Մասնակցի հետազոտության փուլեր / տարրեր)</span></div></li>
+      <li><div class="branch"><span class="code">SV</span><span>— Subject Visits</span><span class="translation">(Մասնակցի այցեր)</span></div></li>
+      <li><div class="branch"><span class="code">SM</span><span>— Subject Disease Milestones</span><span class="translation">(Մասնակցի հիվանդության կարևոր փուլեր)</span></div></li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="branch category">
+      <span>3. Trial Design Domains</span>
+      <span class="translation">(Հետազոտության դիզայնի դոմեյններ)</span>
+    </div>
+    <ul>
+      <li><div class="branch"><span class="code">TA</span><span>— Trial Arms</span><span class="translation">(Հետազոտության բուժման խմբեր)</span></div></li>
+      <li><div class="branch"><span class="code">TE</span><span>— Trial Elements</span><span class="translation">(Հետազոտության փուլային տարրեր)</span></div></li>
+      <li><div class="branch"><span class="code">TV</span><span>— Trial Visits</span><span class="translation">(Հետազոտության պլանավորված այցեր)</span></div></li>
+      <li><div class="branch"><span class="code">TI</span><span>— Trial Inclusion/Exclusion Criteria</span><span class="translation">(Հետազոտության ներառման/բացառման չափանիշներ)</span></div></li>
+      <li><div class="branch"><span class="code">TS</span><span>— Trial Summary</span><span class="translation">(Հետազոտության ընդհանուր բնութագրեր)</span></div></li>
+      <li>
+        <div class="branch">
+          <span class="name">Disease/Reproductive Design Structures</span>
+          <span class="translation">(Հիվանդության / վերարտադրողական փուլերի դիզայնի կառուցվածքներ)</span>
+        </div>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="branch category">
+      <span>4. Relationship Datasets</span>
+      <span class="translation">(Կապերի տվյալաշարեր)</span>
+    </div>
+    <ul>
+      <li><div class="branch"><span class="code">RELREC</span><span>— Related Records</span><span class="translation">(Փոխկապակցված գրառումներ)</span></div></li>
+      <li><div class="branch"><span class="code">SUPP--</span><span>— Supplemental Qualifiers</span><span class="translation">(Լրացուցիչ բնութագրիչներ)</span></div></li>
+    </ul>
+  </li>
+
+  <li>
+    <div class="branch category">
+      <span>5. Study Reference Domains</span>
+      <span class="translation">(Հետազոտության տեղեկատու դոմեյններ)</span>
+    </div>
+    <ul>
+      <li><div class="branch"><span class="code">DI</span><span>— Device Identifiers</span><span class="translation">(Սարքերի նույնացուցիչներ)</span></div></li>
+      <li><div class="branch"><span class="code">OI</span><span>— Non-Host Organism Identifiers</span><span class="translation">(Հյուրընկալող օրգանիզմից տարբեր օրգանիզմների նույնացուցիչներ)</span></div></li>
+      <li><div class="branch"><span class="code">PB</span><span>— Pharmacogenomics/Genetics Identifiers</span><span class="translation">(Ֆարմակոգենոմիկայի / գենետիկայի նույնացուցիչներ)</span></div></li>
+    </ul>
+  </li>
+
+</ul>
+</div>
+</div>
+</body>
 </html>
+
+     
